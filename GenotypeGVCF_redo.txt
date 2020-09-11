@@ -1,0 +1,19 @@
+export PATH=$PATH:~/local/gatk-4.1.7.0/
+fasta=/home/yancheng/SL3.0/S_lycopersicum_chromosomes.3.00.fa
+bam=/biodata/KYC/New_TomatoCore/SL3.0/Alignment/bam_modified/Recal/QL0704_r89_recal.bam
+gvcf=/biodata/KYC/New_TomatoCore/SL3.0/VariantCalling/WithRecal/GVCF/QL0704_r89.g.vcf.gz
+
+for i in {01..12}
+do
+reg_vcf=/biodata/KYC/New_TomatoCore/SL3.0/VariantCalling/WithRecal/VCF/Raw_VCF/Merged/SL3.0ch${i}.vcf.gz
+out_vcf=/biodata/KYC/New_TomatoCore/SL3.0/VariantCalling/WithRecal/VCF/Raw_VCF/QL0704_r89/QL0704_r89_SL3.0ch${i}.vcf.gz
+
+ gatk --java-options "-Xmx32g" GenotypeGVCFs   \
+   -R $fasta \
+   -V $gvcf \
+   -O $out_vcf \
+   -L $reg_vcf \
+   --force-output-intervals $reg_vcf >> log 2>&1 & 
+   
+done
+
